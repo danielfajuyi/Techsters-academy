@@ -4,20 +4,20 @@ import "dotenv/config.js";
 import connectDB from "./configs/mongodb.js";
 import { clerkWebhooks } from "./controllers/webhooks.js";
 
+// Initialize Express
 const app = express();
 
 // Connect to database
-(async () => {
-  await connectDB();
-})();
-
+await connectDB();
 // Middlewares
 app.use(cors());
-app.use(express.json());
 
 // Routes
-app.get("/", (req, res) => res.send("API Working"));
-app.post("/clerk", clerkWebhooks);
+app.get("/", (req, res) => res.send("Api Working"));
+app.post("/clerk", express.json(), clerkWebhooks);
+// Port
+const PORT = process.env.PORT || 5000;
 
-// Export the app (Vercel handles the server)
-export default app;
+app.listen(PORT, () => {
+  console.log(`server is running on port ${PORT}`);
+});
