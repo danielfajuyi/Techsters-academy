@@ -38,7 +38,7 @@ export const addCourse = async (req, res) => {
     newCourse.courseThumbnail = imageUpload.secure_url;
     await newCourse.save();
 
-    res.json({ success: true, message: "Course Added" });
+    res.json({ success: true, message: "Course Added Sucessfully" });
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
@@ -57,7 +57,7 @@ export const getEducatorCourses = async (req, res) => {
 
 //Get Educator Dashboard data(Total Earning, Enrolled Students, No. of Courses)
 
- export const educatorDashboardData = async (req, res) => {
+export const educatorDashboardData = async (req, res) => {
   try {
     const educator = req.auth.userId;
     const courses = await Course.find({ educator });
@@ -108,26 +108,27 @@ export const getEducatorCourses = async (req, res) => {
 };
 
 // Get Enrolled Student Data with Purchase Data
-export const getEnrolledStdentsData = async(req, res)=>{
-   try {
+export const getEnrolledStdentsData = async (req, res) => {
+  try {
     const educator = req.auth.userId;
     const courses = await Course.find({ educator });
     const courseIds = courses.map((course) => course._id);
 
     const purchases = await Purchase.find({
-        courseId: {$in: courseIds},
-        status: 'completed'
-    }).populate('userId', 'name imageUrl').populate('courseId', 'courseTitle')
+      courseId: { $in: courseIds },
+      status: "completed",
+    })
+      .populate("userId", "name imageUrl")
+      .populate("courseId", "courseTitle");
 
-    const enrolledStudents = purchases.map(purchase => ({
-        student: purchase.userId,
-        courseTitle: purchase.courseId.courseTitle,
-        purchaseDate: purchase.createdAt
+    const enrolledStudents = purchases.map((purchase) => ({
+      student: purchase.userId,
+      courseTitle: purchase.courseId.courseTitle,
+      purchaseDate: purchase.createdAt,
     }));
 
-    res.json({success: true, enrolledStudents })
-    
-   } catch (error) {
-     res.json({ success: false, message: error.message });
-   }
-}
+    res.json({ success: true, enrolledStudents });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
