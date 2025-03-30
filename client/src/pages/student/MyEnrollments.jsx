@@ -1,6 +1,4 @@
 import React, { useContext, useState } from "react";
-import { useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import { AppContext } from "../../context/AppContext";
 import { Line } from "rc-progress";
 import Footer from "../../components/student/Footer";
@@ -8,16 +6,6 @@ import Footer from "../../components/student/Footer";
 const MyEnrollments = () => {
   const { enrolledCourses, calcualteCourseDuration, navigate } =
     useContext(AppContext);
-
-  const location = useLocation();
-
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    if (params.has("trxref") || params.has("reference")) {
-      // Remove query parameters after page loads
-      navigate("/loading/my-enrollments", { replace: true });
-    }
-  }, [location, navigate]);
   const [progressArray, setProgressArray] = useState([
     { lectureCompleted: 2, totalLecture: 4 },
     { lectureCompleted: 1, totalLecture: 5 },
