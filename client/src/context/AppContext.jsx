@@ -40,15 +40,15 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   // Function to calculate average rating of course
   const calculateRating = (course) => {
-    if (course.courseRatings.length === 0) {
+    if (course.courseRating.length === 0) {
       return 0;
     }
     let totalRating = 0;
-    course.courseRatings.forEach((rating) => {
+    course.courseRating.forEach((rating) => {
       totalRating += rating.rating;
     });
 
-    return totalRating / course.courseRatings.length;
+    return totalRating / course.courseRating.length;
   };
 
   // Function to calculate Course chapter time
