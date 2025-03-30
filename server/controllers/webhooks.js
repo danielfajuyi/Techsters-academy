@@ -129,81 +129,60 @@ export const clerkWebhooks = async (req, res) => {
 
 export const paystackWebhooks = async (req, res) => {
   try {
-    // Validate the Paystack signature
-    const paystackSignature = req.headers["x-paystack-signature"];
-    if (!paystackSignature) {
-      return res.status(400).send("Webhook Error: No signature provided");
-    }
-
     const secret = process.env.PAYSTACK_SECRET_KEY;
     const hash = crypto
       .createHmac("sha512", secret)
       .update(JSON.stringify(req.body))
       .digest("hex");
 
-    if (hash !== paystackSignature) {
-      return res.status(400).send("Webhook Error: Invalid signature");
+    // Verify Paystack signature
+    if (hash !== req.headers["x-paystack-signature"]) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
     const event = req.body;
-    console.log("Paystack Webhook Event:", event);
+    console.log("Paystack Webhook Event:", event); // Debugging
 
-    switch (event.event) {
-      case "charge.success": {
-        const paymentData = event.data;
-        const purchaseId = paymentData.metadata.purchaseId;
+    if (event.event === "charge.success") {
+      const reference = event.data.reference;
+      const purchaseId = event.data.metadata.purchaseId; // Retrieve the stored purchase ID
 
-        const purchaseData = await Purchase.findById(purchaseId);
-        if (!purchaseData) {
-          return res.status(404).send("Webhook Error: Purchase not found");
-        }
+      const purchaseData = await Purchase.findById(purchaseId);
+      if (!purchaseData) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Purchase not found" });
+      }
 
-        const userData = await User.findById(purchaseData.userId);
-        const courseData = await Course.findById(
-          purchaseData.courseId.toString()
-        );
+      // Update purchase status
+      purchaseData.status = "completed";
+      await purchaseData.save();
 
-        if (!userData || !courseData) {
-          return res
-            .status(404)
-            .send("Webhook Error: User or Course not found");
-        }
+      // Enroll user in the course
+      const userData = await User.findById(purchaseData.userId);
+      const courseData = await Course.findById(purchaseData.courseId);
 
-        // Enroll user in the course
-        courseData.enrolledStudents.push(userData);
+      if (userData && courseData) {
+        courseData.enrolledStudents.push(userData._id);
         await courseData.save();
 
         userData.enrolledCourses.push(courseData._id);
         await userData.save();
-
-        // Mark purchase as completed
-        purchaseData.status = "completed";
-        await purchaseData.save();
-
-        break;
       }
 
-      case "charge.failed": {
-        const paymentData = event.data;
-        const purchaseId = paymentData.metadata.purchaseId;
-
-        const purchaseData = await Purchase.findById(purchaseId);
-        if (purchaseData) {
-          purchaseData.status = "failed";
-          await purchaseData.save();
-        }
-
-        break;
-      }
-
-      default:
-        console.log(`Unhandled event type: ${event.event}`);
+      return res
+        .status(200)
+        .json({
+          success: true,
+          message: "Payment verified and course enrolled",
+        });
     }
 
-    // Acknowledge Paystack's webhook event
-    res.status(200).json({ received: true });
+    res.status(400).json({ success: false, message: "Unhandled event type" });
   } catch (error) {
-    console.error("Paystack Webhook Error:", error.message);
-    res.status(500).send("Internal Server Error");
+    console.error("Webhook Error:", error.message);
+    res
+      .status(500)
+      .json({ success: false, message: "Webhook processing failed" });
   }
 };

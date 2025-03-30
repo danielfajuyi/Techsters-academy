@@ -63,6 +63,7 @@ export const purchaseCourse = async (req, res) => {
       userId,
       amount,
     });
+    const callbackUrl = `${origin.replace(/\/$/, "")}/loading/my-enrollments`;
 
     // Initialize Paystack Payment
     const response = await axios.post(
@@ -79,7 +80,7 @@ export const purchaseCourse = async (req, res) => {
           quantity: 1,
           unit_amount: Math.floor(newPurchase.amount * 100), // Same as Stripe's unit amount
         },
-        callback_url: `${origin}/loading/my-enrollments`,
+        callback_url: callbackUrl,
       },
       {
         headers: {
