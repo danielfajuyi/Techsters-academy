@@ -4,10 +4,10 @@ import Loading from "../../components/student/Loading";
 
 const MyCourses = () => {
   const { currency, allCourses } = useContext(AppContext);
-  const [courses, setAllCourses] = useState(null);
+  const [courses, setCourses] = useState(null);
 
   const fetchEducatorCourses = async () => {
-    setAllCourses(allCourses);
+    setCourses(allCourses);
   };
 
   useEffect(() => {
@@ -33,13 +33,13 @@ const MyCourses = () => {
               </tr>
             </thead>
             <tbody className="text-sm text-gray-500">
-          {courses.map((course)=> (
+          {courses.map((course)=>(
             <tr key={course._id} className="border-b border-gray-500/20">
               <td className="md:px-4 pl-2 md:pl-4 py-3 flex items-center space-x-3 truncate">
                 <img src={course.courseThumbnail} alt="course image" className="w-16" />
                 <span className="truncate hidden md:block">{course.courseTitle}</span>
               </td>
-              <td className="px-4 py-3">{currency} {Math.floor(course.enrolledStudents.length * (course.discount * course.coursePrice /100))}</td>
+              <td className="px-4 py-3">{currency} {Math.floor(course.enrolledStudents.length * (course.coursePrice - course.discount * course.coursePrice / 100))}</td>
               <td className="px-4 py-3">{course.enrolledStudents.length}</td>
               <td className="px-4 py-3">
                 {new Date(course.createdAt).toLocaleString()}</td>

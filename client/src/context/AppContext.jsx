@@ -3,13 +3,13 @@ import { dummyCourses } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import humanizeDuration from "humanize-duration";
 import { useAuth, useUser } from "@clerk/clerk-react";
-import axios from 'axios'
+import axios from "axios";
 import { toast } from "react-toastify";
 
 export const AppContext = createContext();
 
 export const AppContextProvider = (props) => {
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const currency = import.meta.env.VITE_CURRENCY;
   const navigate = useNavigate();
@@ -18,25 +18,43 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const { user } = useUser();
 
   const [allCourses, setAllCourses] = useState([]);
-  const [isEducator, setIsEducator] = useState(true);
+  const [isEducator, setIsEducator] = useState(false);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
+  const [userData, setUserData] = useState(null);
 
   // Fetch All Courses
   const fetchAllCourses = async () => {
     try {
-     const {data} = await axios.get(backendUrl + '/api/course/all');
+      const { data } = await axios.get(backendUrl + "/api/course/all");
 
-     if(data.success){
-      setAllCourses(data.courses)
-     } else{
-      toast.error(data.message)
-     }
-
-
+      if (data.success) {
+        setAllCourses(data.courses);
+      } else {
+        toast.error(data.message);
+      }
     } catch (error) {
-        toast.error(error.message)
+      toast.error(error.message);
     }
-  }
+  };
+
+  //Fetch UserData
+  const fetchUserData = async () => {
+    try {
+      const token = await getToken();
+      const { data } = await axios.get(`${backendUrl}/api/user/data`, {
+        headers: { Authorization: `Bearer ${token}`},
+      });
+
+      if (data.success) {
+        console.log("Fetched user data:", data.user);
+        setUserData(data.user);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   // Function to calculate average rating of course
   const calculateRating = (course) => {
@@ -48,7 +66,7 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
       totalRating += rating.rating;
     });
 
-    return totalRating / course.courseRating.length;
+    return Math.floor(totalRating / course.courseRating.length);
   };
 
   // Function to calculate Course chapter time
@@ -82,21 +100,39 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
   //Fetch User Enrolled courses
 
   const fetchUserEnrolledCourses = async () => {
-    setEnrolledCourses(dummyCourses);
+    try {
+      const token = await getToken();
+      const { data } = await axios.get(
+        backendUrl + "/api/user/enrolled-courses",
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (data.sucess) {
+        const reversedCourses = [...data.enrolledCourses].reverse();
+        setEnrolledCourses(reversedCourses);
+        // console.log("Updated Enrolled Courses:", reversedCourses);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error("Error Fetching Enrolled Courses:", error);
+      toast.error(error.message);
+    }
   };
 
   useEffect(() => {
     fetchAllCourses();
-    fetchUserEnrolledCourses();
   }, []);
-
-  const logToken = async () => {
-    console.log(await getToken());
-  };
 
   useEffect(() => {
     if (user) {
-      logToken();
+      console.log("User detected:", user);
+      console.log("User public metadata:", user.publicMetadata);
+
+      setIsEducator(user.publicMetadata?.role === "educator");
+      getToken(); // remove later
+      fetchUserData();
+      fetchUserEnrolledCourses();
     }
   }, [user]);
 
@@ -112,7 +148,11 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
     calculateChapterTime,
     enrolledCourses,
     fetchUserEnrolledCourses,
-    
+    backendUrl,
+    userData,
+    setUserData,
+    getToken,
+    fetchAllCourses,
   };
   return (
     <AppContext.Provider value={value}>{props.children}</AppContext.Provider>
