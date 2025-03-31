@@ -169,7 +169,7 @@ const Player = () => {
                               progressData &&
                               playerData &&
                               progressData.lectureCompleted.includes(
-                                playerData.lectureId
+                                lecture.lectureId
                               )
                                 ? assets.blue_tick_icon
                                 : assets.play_icon
