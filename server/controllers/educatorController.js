@@ -2,6 +2,7 @@ import { clerkClient } from "@clerk/express";
 import Course from "../models/Course.js";
 import { v2 as cloudinary } from "cloudinary";
 import { Purchase } from "../models/Purchase.js";
+import User from "../models/User.js";
 
 //update role to educator
 export const updateRoleToEducator = async (req, res) => {
@@ -78,7 +79,7 @@ export const getEducatorCourses = async (req, res) => {
 
     //collect unique enrolled student IDs with their course titles
     const enrolledStudentsData = [];
-    for (const course of course) {
+    for (const course of courses) {
       const students = await User.find(
         {
           _id: { $in: course.enrolledStudents },
