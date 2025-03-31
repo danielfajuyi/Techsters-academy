@@ -152,38 +152,43 @@ export const getUserCourseProgress = async (req, res) => {
 export const addUserRating = async (req, res) => {
   const userId = req.auth.userId;
   const { courseId, rating } = req.body;
+
   if (!courseId || !userId || !rating || rating < 1 || rating > 5) {
-    return res.json({ success: false, Message: "Invalid Details" });
+    return res.json({ success: false, message: "Invalid Details" });
   }
 
   try {
     const course = await Course.findById(courseId);
-
     if (!course) {
-      return res.json({ sucess: false, message: "Course not found" });
+      return res.json({ success: false, message: "Course not found" });
     }
 
     const user = await User.findById(userId);
-
     if (!user || !user.enrolledCourses.includes(courseId)) {
       return res.json({
         success: false,
-        message: "User has not Purchased this course",
+        message: "User has not purchased this course",
       });
     }
 
     const existingRatingIndex = course.courseRating.findIndex(
-      (r) => r.userId === userId
+      (r) => r.userId.toString() === userId.toString()
     );
 
     if (existingRatingIndex > -1) {
-      course.courseRating[existingRatingIndex].rating;
+      // ✅ Update the existing rating
+      course.courseRating[existingRatingIndex].rating = rating;
     } else {
+      // ✅ Add a new rating
       course.courseRating.push({ userId, rating });
     }
+
     await course.save();
 
-    return res.json({ success: true, message: "Rating added" });
+    return res.json({
+      success: true,
+      message: "Rating Added",
+    });
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }
