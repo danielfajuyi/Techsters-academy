@@ -27,13 +27,17 @@ app.use("/api/educator", express.json(), educatorRouter);
 app.use("/api/course", express.json(), courseRouter);
 app.use("/api/user", express.json(), userRouter);
 app.post("/paystack-webhook", express.json(), paystackWebhooks);
+
 // app.post("/stripe", express.raw({ type: "application/json" }), stripeWebhooks);
 
 //port
+
 const PORT = process.env.PORT || 5000;
 const liveServer = "https://techsters-academy.vercel.app/";
+const displayText = "api is working";
 
 app.listen(PORT, () => {
   console.log(`server is running on port ${PORT} local server`);
   console.log(`access live server at ${liveServer}`);
+  console.log(`live server display text === ${displayText}`);
 });

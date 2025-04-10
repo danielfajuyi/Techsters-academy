@@ -5,7 +5,7 @@ import Stripe from "stripe";
 import { Purchase } from "../models/Purchase.js";
 import Course from "../models/Course.js";
 
-// API Controller Function to Manage Clerk User with Database
+// API Controller Function to Manage Clerk User from Database
 
 export const clerkWebhooks = async (req, res) => {
   try {
@@ -170,12 +170,10 @@ export const paystackWebhooks = async (req, res) => {
         await userData.save();
       }
 
-      return res
-        .status(200)
-        .json({
-          success: true,
-          message: "Payment verified and course enrolled",
-        });
+      return res.status(200).json({
+        success: true,
+        message: "Payment verified and course enrolled",
+      });
     }
 
     res.status(400).json({ success: false, message: "Unhandled event type" });
