@@ -3,11 +3,15 @@ import { assets } from "../../assets/assets";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 md:px-36 text-left w-full mt-10">
+    <footer className="bg-main-bg md:px-36 text-left w-full mt-10">
       <div className="flex flex-col md:flex-row items-start px-8 md:px-0 justify-center gap-10 md:gap-32 py-10 border-b border-white/30">
         <div className="flex flex-col md:items-start items-center w-full">
-          <img src={assets.logo_dark} alt="logo" />
-          <p className="mt-6 text-center md:text-left text-sm text-white/80">
+          <img
+            src={assets.techsters_logo}
+            alt="logo"
+            className="w-12 lg:w-16 transform translate-y-[-20px] "
+          />
+          <p className="mt-6 text-center md:text-left text-sm text-white/80 transform translate-y-[-30px] ">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid
             soluta placeat minima voluptatibus suscipit quia. Beatae recusandae
             distinctio eligendi magnam.
@@ -20,10 +24,10 @@ const Footer = () => {
               <a href="#">Home</a>
             </li>
             <li>
-              <a href="#">About us</a>
+              <a href="https://techsters.com.ng/about/">About us</a>
             </li>
             <li>
-              <a href="#">Contact us</a>
+              <a href="https://techsters.com.ng/contact/">Contact us</a>
             </li>
             <li>
               <a href="#">Privacy policy</a>
@@ -43,7 +47,7 @@ const Footer = () => {
               placeholder="Enter your email"
               className="border border-gray-500/30 bg-gray-800 text-gray-500 placeholder-gray-500 outline-none w-64 h-9 rounded px-2 text-sm"
             />
-            <button className="bg-blue-600 w-24 h-9 text-white rounded">
+            <button className="bg-button-bg w-24 h-9 text-white rounded">
               Subscribe
             </button>
           </div>

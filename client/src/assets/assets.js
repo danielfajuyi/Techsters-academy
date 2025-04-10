@@ -42,6 +42,14 @@ import profile_img from "./profile_img.png";
 import profile_img2 from "./profile_img2.png";
 import profile_img3 from "./profile_img3.png";
 import lesson_icon from "./lesson_icon.svg";
+import techsters_logo from "./techsters_logo.png"
+import home_tech from "./home_tech.png"
+import add_course_icon from "./add_course_icon.png"
+import course_list_icon from "./course_list_icon.png"
+import student_enrolled_icon from "./student_enrolled_icon.png"
+import tech_facebook_icon from "./tech_facebook_icon.png"
+import tech_twitter_icon from "./tech_twitter_icon.png";
+import tech_instagram_icon from "./tech_instagram_icon.png";
 
 export const assets = {
   logo,
@@ -88,6 +96,14 @@ export const assets = {
   play_icon,
   blue_tick_icon,
   lesson_icon,
+  techsters_logo,
+  home_tech,
+  add_course_icon,
+  course_list_icon,
+  student_enrolled_icon,
+  tech_facebook_icon,
+  tech_instagram_icon,
+  tech_twitter_icon
 };
 
 export const dummyEducatorData = {

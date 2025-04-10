@@ -130,7 +130,7 @@ const Player = () => {
       <div className="p-4 sm:p-10 flex flex-col-reverse md:grid md:grid-cols-2 gap-10 md:px-36">
         {/* left column */}
         <div className="text-gray-800">
-          <h2 className="text-xl font-semibold">Course Structure</h2>n
+          <h2 className="text-xl font-semibold text-white">Course Structure</h2>
           <div className="pt-5">
             {courseData &&
               courseData.courseContent.map((chapter, index) => (
@@ -210,7 +210,9 @@ const Player = () => {
               ))}
           </div>
           <div className="flex item-center gap-2 py-3 mt-10">
-            <h1 className="text-xl font-bold">Rate this course:</h1>
+            <h1 className="text-xl font-bold text-text-color">
+              Rate this course:
+            </h1>
             <Rating initialRating={initialRating} onRate={handleRate} />
           </div>
         </div>
@@ -223,7 +225,7 @@ const Player = () => {
                 videoId={playerData.lectureUrl.split("/").pop()}
                 iframeClassName="w-full aspect-video"
               />
-              <div className="flex justify-between items-center mt-1">
+              <div className="flex justify-between items-center mt-1 text-text-color">
                 <p>
                   {playerData.chapter}.{playerData.lecture}{" "}
                   {playerData.lectureTitle}
