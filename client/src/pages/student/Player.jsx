@@ -19,20 +19,10 @@ const Player = () => {
     userData,
     fetchUserEnrolledCourses,
   } = useContext(AppContext);
-  const {
-    enrolledCourses,
-    calculateChapterTime,
-    backendUrl,
-    getToken,
-    userData,
-    fetchUserEnrolledCourses,
-  } = useContext(AppContext);
   const { courseId } = useParams();
   const [courseData, setCourseData] = useState(null);
   const [openSections, setOpenSection] = useState({});
   const [playerData, setPlayerData] = useState(null);
-  const [progressData, setProgressData] = useState(null);
-  const [initialRating, setInitialRating] = useState(0);
   const [progressData, setProgressData] = useState(null);
   const [initialRating, setInitialRating] = useState(0);
 
@@ -44,11 +34,6 @@ const Player = () => {
         course.courseRating.map((item) => {
           if (item.userId === userData._id) {
             console.log("Rating from backend:", item.rating); // Check backend data
-            setInitialRating(item.rating);
-          }
-        });
-        course.courseRating.map((item) => {
-          if (item.userId === userData._id) {
             setInitialRating(item.rating);
           }
         });
