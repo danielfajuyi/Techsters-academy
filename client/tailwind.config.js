@@ -31,12 +31,13 @@ export default {
         "span-color": "#FF2759",
         "text-color": "#CBCBCB",
         "link-color": "#4A4BFF",
-        "active-color" : "#FF2759",
+        "active-color": "#FF2759",
       },
       backgroundImage: {
-        "button-bg": "linear-gradient(270deg, #8811ff 0%, #ff2759 100%)",
+        "button-bg": "linear-gradient(90deg, #9e33ff 0%, #ff6ab1 100%)",
         "main-bg":
           "linear-gradient(180deg, rgba(17,24,35,0) 0%, #0C1014 51%, #0C1014 100%)",
+        "hover-bg": "linear-gradient(90deg, #ff6ab1 0%, #9e33ff 100%)",
       },
     },
   },
