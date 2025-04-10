@@ -210,7 +210,7 @@ const AddCourse = () => {
         onSubmit={handleSubmit}
       >
         <div className="flex flex-col gap-1">
-          <p>Course Title</p>
+          <p className="text-white">Course Title</p>
           <input
             type="text"
             onChange={(e) => setCourseTitle(e.target.value)}
@@ -220,14 +220,14 @@ const AddCourse = () => {
             required
           />
         </div>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 text-white">
           <p>Course Description</p>
           <div ref={editorRef}></div>
         </div>
 
         <div className="flex items-center justify-between flex-wrap">
           <div className="flex flex-col gap-1">
-            <p>Course Price</p>
+            <p className="text-white">Course Price</p>
             <input
               type="number"
               onChange={(e) => setCoursePrice(e.target.value)}
@@ -239,7 +239,7 @@ const AddCourse = () => {
           </div>
 
           <div className="flex md:flex-row flex-col items-center gap-3">
-            <p>Course Thumbnail</p>
+            <p className="text-white">Course Thumbnail</p>
             <label htmlFor="thumbnailImage" className="flex items-center gap-3">
               <img
                 src={assets.file_upload_icon}
@@ -264,7 +264,7 @@ const AddCourse = () => {
         </div>
 
         <div className="flex flex-col gap-1">
-          <p>Discount</p>
+          <p className="text-white">Discount</p>
           <input
             type="number"
             onChange={(e) => setDiscount(e.target.value)}
@@ -374,7 +374,7 @@ const AddCourse = () => {
                 </div>
 
                 <div className="mb-2">
-                  <p>Duration (minutes)</p>
+                  <p className="text-white">Duration (minutes)</p>
                   <input
                     type="number"
                     className="mt-1 block w-full rounded py-1 px-2"

@@ -6,6 +6,7 @@ import { assets } from "../../assets/assets";
 import UserDrawer from "./UserDrawer"; // Import the Drawer
 import { Menu } from "lucide-react";
 
+
 const Navbar = () => {
   const { navigate, isEducator, setIsEducator, getToken, backendUrl } =
     useContext(AppContext);
@@ -35,17 +36,40 @@ const Navbar = () => {
 
   return (
     <div
-      className={`flex items-center justify-between px-4 sm:px-10 md:px-14 lg:px-36 border-b border-gray-500 py-4 ${
-        isCourseListPage ? "bg-white" : "bg-cyan-100/70"
-      }`}
+
+      className={`flex items-center justify-between px-4 sm:px-10 md:px-14 lg:px-36 border-b border-gray-500 py-4 ${isCourseListPage ? "bg-navbar-bg" : "bg-navbar-bg"}`}
+
+     
     >
       {/* Logo */}
       <img
         onClick={() => navigate("/")}
-        src={assets.logo}
+        src={assets.techsters_logo}
         alt="Logo"
-        className="w-28 lg:w-32 cursor-pointer"
+        className="w-14 lg:w-20 cursor-pointer "
       />
+
+      <div className="hidden md:flex items-center gap-5 text-text-color">
+        <div>
+          {user && (
+            <>
+              <button onClick={becomeEducator}>
+                {isEducator ? "Educator Dashboard | " : "Become Educator |"}
+              </button>
+              <Link to="/my-enrollments"> My Enrollments</Link>
+            </>
+          )}
+        </div>
+        {user ? (
+          <UserButton />
+        ) : (
+          <button
+            onClick={() => openSignIn()}
+            className="bg-button-bg text-white px-5 py-2 rounded-full"
+          >
+            Create Account
+          </button>
+
 
       {/* Desktop Menu */}
       <div className="hidden md:flex items-center gap-1 text-gray-600">
@@ -75,6 +99,7 @@ const Navbar = () => {
               Create Account
             </button>
           </div>
+
         )}
       </div>
 
