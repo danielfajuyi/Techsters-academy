@@ -17,7 +17,7 @@ const CourseCard = ({ course }) => {
         <p className="text-gray-500">{course.educator.name}</p>
         <div className="flex items-center space-x-2">
           <p>{calculateRating(course)}</p>
-          <div className="flex">
+          <div className="flex" >
             {[...Array(5)].map((_, i) => (
               <img
                 key={i}
@@ -27,13 +27,13 @@ const CourseCard = ({ course }) => {
                     : assets.star_blank
                 }
                 alt="star"
-                className="w-3.5 h-3.5"
+                className="w-3.5 h-3.5  "
               />
             ))}
           </div>
-          <p className="text-gray-500">{course.courseRating.length}</p>
+          <p className="text-text-colo">{course.courseRating.length}</p>
         </div>
-        <p className="text-base font-semibold text-gray-800">
+        <p className="text-base font-semibold text-text-color">
           {currency}
           {(
             course.coursePrice -

@@ -2,15 +2,40 @@ import React, { useContext, useEffect, useState } from "react";
 import { dummyStudentEnrolled } from "../../assets/assets";
 import Loading from "../../components/student/Loading";
 import { AppContext } from "../../context/AppContext";
-import axios from "axios";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const StudentsEnrolled = () => {
+  const { backendUrl, isEducator, getToken } = useContext(AppContext);
 
   const {backendUrl, getToken, isEducator} = useContext(AppContext)
 
   const [enrolledStudents, setEnrolledStudents] = useState(null);
 
+  const fectchEnrolledStudents = async () => {
+    try {
+      const token = await getToken();
+      const { data } = await axios.get(
+        backendUrl + "/api/educator/enrolled-students",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (data.success) {
+        setEnrolledStudents(data.enrolledStudents.reverse());
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (isEducator) {
+      fectchEnrolledStudents();
+    }
+  }, [isEducator]);
   const fectchEnrolledStudents = async () =>{
    try {
     const token = await getToken()
@@ -42,27 +67,31 @@ const StudentsEnrolled = () => {
               <th className="px-4 py-3 font-semibold text-center hidden sm:table-cell">
                 #
               </th>
-              <th className="px-4 py-3 font-semibold">
-                Student Name
-              </th>
-              <th className="px-4 py-3 font-semibold">
-                Course Title
-              </th>
+              <th className="px-4 py-3 font-semibold">Student Name</th>
+              <th className="px-4 py-3 font-semibold">Course Title</th>
               <th className="px-4 py-3 font-semibold text-center hidden sm:table-cell">
                 Date
               </th>
             </tr>
           </thead>
-          <tbody className="text-sm text-gray-500">
-            {enrolledStudents.map((item, index)=> (
+          <tbody className="text-sm text-hero-bg">
+            {enrolledStudents.map((item, index) => (
               <tr key={index} className="border-b border-gray-500/20">
-                <td className="px-4 py-3 text-center hidden sm:table-cell">{index + 1}</td>
+                <td className="px-4 py-3 text-center hidden sm:table-cell">
+                  {index + 1}
+                </td>
                 <td className="md:px-4 px-2 py-3 flex items-center space-x-3">
-                  <img src={item.student.imageUrl} alt="student_profile_image" className="w-9 h-9 rounded-full" />
+                  <img
+                    src={item.student.imageUrl}
+                    alt="student_profile_image"
+                    className="w-9 h-9 rounded-full"
+                  />
                   <span className="truncate">{item.student.name}</span>
                 </td>
                 <td className="px-4 py-3 trunctate">{item.courseTitle}</td>
-                <td className="px-4 py-3 hidden sm:table-cell">{new Date(item.purchaseDate).toLocaleDateString()}</td>
+                <td className="px-4 py-3 hidden sm:table-cell">
+                  {new Date(item.purchaseDate).toLocaleDateString()}
+                </td>
               </tr>
             ))}
           </tbody>

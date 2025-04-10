@@ -19,12 +19,25 @@ export default {
       spacing: {
         "section-height": "500px",
       },
-      maxWidth:{
-        'course-card' : '424px'
+      maxWidth: {
+        "course-card": "424px",
       },
       boxShadow: {
-        'cusom-card' : '0px 4px 15px 2px rgba(0,0,0,0.1)'
-      }
+        "custom-card": "0px 4px 15px 2px rgba(0,0,0,0.1)",
+      },
+      colors: {
+        "navbar-bg": "#0c1014",
+        "hero-bg": "#111823",
+        "span-color": "#FF2759",
+        "text-color": "#CBCBCB",
+        "link-color": "#4A4BFF",
+        "active-color" : "#FF2759",
+      },
+      backgroundImage: {
+        "button-bg": "linear-gradient(270deg, #8811ff 0%, #ff2759 100%)",
+        "main-bg":
+          "linear-gradient(180deg, rgba(17,24,35,0) 0%, #0C1014 51%, #0C1014 100%)",
+      },
     },
   },
 

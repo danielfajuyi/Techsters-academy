@@ -23,7 +23,7 @@ export const getCourseId = async (req, res) => {
     courseData.courseContent.forEach((chapter) => {
       chapter.chapterContent.forEach((lecture) => {
         if (!lecture.isPreviewFree) {
-          lecture.lectureUrl = " ";
+          lecture.lectureUrl = "";
         }
       });
     });
