@@ -61,13 +61,13 @@ const Navbar = () => {
           <div className="flex gap-3">
             <button
               onClick={() => openSignIn()}
-              className="bg-white text-blue-600 border border-blue-600 px-4 py-2 rounded-full hover:bg-blue-50"
+              className="bg-white text-active-color border  px-4 py-2 rounded-full hover:bg-active-color hover:text-white hover:scale-105"
             >
               Sign In
             </button>
             <button
               onClick={() => openSignUp()}
-              className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700"
+              className="bg-button-bg text-white border  px-4 py-2 rounded-full hover:bg-hover-bg hover:scale-105"
             >
               Create Account
             </button>

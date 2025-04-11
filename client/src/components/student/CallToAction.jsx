@@ -13,10 +13,10 @@ const CallToAction = () => {
         sequi.
       </p>
       <div className="flex items-center font-medium gap-6 mt-4">
-        <button className="px-10 py-3 ronded-md text-white bg-button-bg">
+        <button className="px-10 py-3 ronded-md text-white bg-button-bg hover:bg-hover-bg hover:scale-105">
           Get Started
         </button>
-        <button className="flex items-center gap-2 text-link-color" >
+        <button className="flex items-center gap-2 text-link-color">
           Learn More <img src={assets.arrow_icon} alt="arrow_icon" />
         </button>
       </div>
